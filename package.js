@@ -2,7 +2,8 @@ Package.describe({
   name: 'pitchly:accounts-pitchly',
   version: '1.0.0',
   summary: 'Login service for Pitchly accounts',
-  documentation: 'README.md'
+  documentation: 'README.md',
+  git: 'https://github.com/Pitchlyapp/accounts-pitchly'
 });
 
 Package.onUse(api => {
