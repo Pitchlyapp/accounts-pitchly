@@ -58,11 +58,11 @@ Once the user is logged in, calling `Meteor.user()` on the client side will retu
     "pitchly": {
       "accessToken": "plyu_7Xhuc_p1z0j2KFJ1W9GBoyHRHA4D1LG67z2DpTCJ4qn",
       "accessTokenExpiresAt": 1639496919877,
-      "email": "michael@pitchly.com",
+      "email": "john.doe@example.com",
       "id": "psnXhJbDnRNqHmNhBYL5",
-      "name": "Michael Brook",
+      "name": "John Doe",
       "organizationId": "org44xgwQKnMNGJFPFdB",
-      "picture": "https://s.gravatar.com/avatar/97124a2b18399fafba5adeb175b5b99c?s=480&d=identicon",
+      "picture": "https://s.gravatar.com/avatar/f97f7ddd815a6b07368693e189b163e7?s=480&d=identicon",
       "updatedAt": 1639493320918
     }
   }
