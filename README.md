@@ -33,6 +33,12 @@ In your app's settings file, add the following, replacing `clientId` with your *
 }
 ```
 
+Install this package via your terminal in your app directory:
+
+```console
+meteor add pitchly:accounts-pitchly
+```
+
 ## Usage
 
 To log the user in, call this on the client side:
@@ -84,7 +90,7 @@ Although you could add this to requests yourself, the recommended approach is to
 
 ### Refreshing access tokens
 
-This package automatically refreshes a user's access token when it is within 10 minutes of expiring as long as the user is using your app. But if you want to manually refresh their access token or refresh their token on the server while the user is _not_ actively using your app, you can call the `Pitchly.refreshAccessToken` Meteor method from either the client or server.
+This package automatically refreshes a user's access token when it is within 10 minutes of expiring as long as the user is using your app. But if you want to manually refresh their access token or refresh their token on the server while the user is _not_ actively using your app, you can call the `Pitchly.refreshAccessToken` Meteor method from either the client or server. (Note that this method also updates the user's profile info)
 
 ```js
 Meteor.call("Pitchly.refreshAccessToken");
