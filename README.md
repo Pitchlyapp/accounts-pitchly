@@ -6,14 +6,14 @@ Use this Meteor package to log a Pitchly user into your app via `Meteor.loginWit
 
 Copy this repo into the `packages` directory of your Meteor app or add this package into your app using [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules):
 
-```console
+```
 cd packages
 git submodule add https://github.com/Pitchlyapp/accounts-pitchly
 ```
 
 If you haven't already, you will also need to add the [`pitchly-oauth` package](https://github.com/Pitchlyapp/pitchly-oauth), since this package depends on it.
 
-```console
+```
 git submodule add https://github.com/Pitchlyapp/pitchly-oauth
 ```
 
@@ -35,7 +35,7 @@ In your app's settings file, add the following, replacing `clientId` with your *
 
 Install this package via your terminal in your app directory:
 
-```console
+```
 meteor add pitchly:accounts-pitchly
 ```
 
