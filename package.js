@@ -12,11 +12,11 @@ Package.onUse(api => {
   api.imply('accounts-base', ['client', 'server']);
 
   api.use('accounts-oauth', ['client', 'server']);
-  api.use('pitchly-oauth');
-  api.imply('pitchly-oauth');
+  api.use('pitchly:pitchly-oauth');
+  api.imply('pitchly:pitchly-oauth');
 
   api.use(
-    ['accounts-ui', 'pitchly-config-ui'],
+    ['accounts-ui', 'pitchly:pitchly-config-ui'],
     ['client', 'server'],
     { weak: true }
   );
