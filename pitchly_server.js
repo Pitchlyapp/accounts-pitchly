@@ -40,9 +40,6 @@ Meteor.methods({
   // the timestamp with millisecond precision).
   // Inspired by: https://github.com/percolatestudio/meteor-google-api/blob/master/google-api-methods.js
   'Pitchly.refreshAccessToken'(data) {
-    // allow other methods to continue being processed without waiting
-    // for this one to finish
-    this.unblock();
     // By default, force refresh each time this method is called. But if
     // "force" is set to false, only refresh if near the expiration time.
     let force = true;
