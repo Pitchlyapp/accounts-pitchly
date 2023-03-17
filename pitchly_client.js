@@ -1,4 +1,5 @@
 const loginWithPitchly = (options, callback) => {
+  console.log("loginwithpitchly-1", options, callback)
   // support a callback without options
   if (! callback && typeof options === "function") {
     callback = options;
@@ -6,6 +7,7 @@ const loginWithPitchly = (options, callback) => {
   }
   const credentialRequestCompleteCallback = Accounts.oauth.credentialRequestCompleteHandler(callback);
   Pitchly.requestCredential(options, credentialRequestCompleteCallback);
+  console.log("loginwithpitchly-2", options, callback, credentialRequestCompleteCallback)
 };
 Accounts.registerClientLoginFunction('pitchly', loginWithPitchly);
 Meteor.loginWithPitchly = 
