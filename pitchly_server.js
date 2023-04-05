@@ -181,9 +181,5 @@ Meteor.methods({
       accessToken: tokenResponse.access_token,
       accessTokenExpiresIn: tokenResponse.expires_in // seconds until access token expires
     };
-  },
-  'Pitchly.getTokenDataFromUrl'(token) {
-    console.log('token', token);
   }
 });
-
