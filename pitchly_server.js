@@ -139,7 +139,7 @@ Meteor.methods({
     (function(accessToken) {
       let response;
       try {
-        const request = fetch(`${config.origin || 'https://platform.pitchly.com'}/graphql`, {
+        const request = fetch(`${config.apiOrigin || 'https://main--pitchly.apollographos.net'}/graphql`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

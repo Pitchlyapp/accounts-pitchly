@@ -130,7 +130,9 @@ Below are all the available properties that can be provided in your app's settin
         "loginStyle": "redirect",
         "clientId": "app*****************",
         "secret": "plys_*******************************************",
-        "accessTokenScope": ["workspace_members:read", "teams:read"]
+        "accessTokenScope": ["workspace_members:read", "teams:read"],
+        "origin": "https://platform.pitchly.com",
+        "apiOrigin": "https://main--pitchly.apollographos.net"
       }
     }
   }
@@ -138,6 +140,8 @@ Below are all the available properties that can be provided in your app's settin
 ```
 
 `accessTokenScope` will cause the access token saved for the user to be downscoped to at most the provided permissions. By default, the access token will possess the maximum permissions allowed to this app. This setting is ideal for situations where you want the app to have elevated permissions, but you don't want the client to have those permissions directly. This list of permissions may be provided as an array or space-delimited string.
+
+`origin` is the origin for OAuth requests. `apiOrigin` is the origin for API requests. These can be customized depending on environment, but above are the defaults.
 
 ### loginWithPitchly options
 
