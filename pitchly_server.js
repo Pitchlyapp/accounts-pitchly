@@ -157,6 +157,7 @@ Meteor.methods({
                   image
                 }
                 tier
+                tierSettings
               }
             }`
           })
@@ -171,6 +172,7 @@ Meteor.methods({
             'services.pitchly.email': response.data.viewer.person.email,
             'services.pitchly.picture': response.data.viewer.person.image,
             'services.pitchly.tier': response.data.viewer.tier,
+            'services.pitchly.tierSettings': response.data.viewer.tierSettings,
             'services.pitchly.updatedAt': Date.now()
           }
         });
