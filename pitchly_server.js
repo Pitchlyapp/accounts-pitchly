@@ -163,7 +163,6 @@ Meteor.methods({
           })
         }).await();
         response = request.json().await();
-        console.log("GraphQL response received:", response ? "success" : "failed");
       } catch (e) {}
       // passively fail on error
       if (response && response.data) {
