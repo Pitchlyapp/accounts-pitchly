@@ -1,6 +1,6 @@
 // the fields available to logged in users about themselves, and fields visible to others
 // we want to make accessToken available, but not refreshToken, so calls can be made to the Pitchly API
-const loggedInUserFields = ['id', 'name', 'email', 'picture', 'organizationId', 'accessToken', 'accessTokenExpiresAt', 'updatedAt'];
+const loggedInUserFields = ['id', 'name', 'email', 'picture', 'organizationId', 'accessToken', 'accessTokenExpiresAt', 'updatedAt', 'tier', 'tierSettings'];
 const otherUserFields = ['id', 'name', 'picture', 'organizationId'];
 
 // defines which fields are automatically published when the autopublish package is added
@@ -165,7 +165,7 @@ Meteor.methods({
         response = request.json().await();
       } catch (e) {}
       // passively fail on error
-      if (response.data) {
+      if (response && response.data) {
         Meteor.users.update(user._id, {
           $set: {
             'services.pitchly.name': response.data.viewer.person.name,
