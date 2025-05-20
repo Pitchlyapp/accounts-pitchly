@@ -1,6 +1,6 @@
 // the fields available to logged in users about themselves, and fields visible to others
 // we want to make accessToken available, but not refreshToken, so calls can be made to the Pitchly API
-const loggedInUserFields = ['id', 'name', 'email', 'picture', 'organizationId', 'accessToken', 'accessTokenExpiresAt', 'updatedAt'];
+const loggedInUserFields = ['id', 'name', 'email', 'picture', 'organizationId', 'accessToken', 'accessTokenExpiresAt', 'updatedAt', 'tier', 'tierSettings'];
 const otherUserFields = ['id', 'name', 'picture', 'organizationId'];
 
 // defines which fields are automatically published when the autopublish package is added
@@ -135,10 +135,14 @@ Meteor.methods({
         return response;
       }
     })();
+    console.log("about to update profile info", tokenResponse);
+    console.log("DEBUG: Before profile update");
     // update profile info about this user while we're at it (not mission critical if this fails)
     (function(accessToken) {
+      console.log("DEBUG: Inside profile update function");
       let response;
       try {
+        console.log("DEBUG: Before GraphQL request");
         const request = fetch(`${config.apiOrigin || 'https://main--pitchly.apollographos.net'}/graphql`, {
           method: 'POST',
           headers: {
@@ -163,9 +167,13 @@ Meteor.methods({
           })
         }).await();
         response = request.json().await();
-      } catch (e) {}
+        console.log("GraphQL response received:", response ? "success" : "failed");
+      } catch (e) {
+        console.error("Error updating profile:", e);
+      }
       // passively fail on error
-      if (response.data) {
+      if (response && response.data) {
+        console.log("Updating user profile with new data");
         Meteor.users.update(user._id, {
           $set: {
             'services.pitchly.name': response.data.viewer.person.name,
