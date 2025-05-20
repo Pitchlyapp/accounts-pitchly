@@ -135,14 +135,10 @@ Meteor.methods({
         return response;
       }
     })();
-    console.log("about to update profile info", tokenResponse);
-    console.log("DEBUG: Before profile update");
     // update profile info about this user while we're at it (not mission critical if this fails)
     (function(accessToken) {
-      console.log("DEBUG: Inside profile update function");
       let response;
       try {
-        console.log("DEBUG: Before GraphQL request");
         const request = fetch(`${config.apiOrigin || 'https://main--pitchly.apollographos.net'}/graphql`, {
           method: 'POST',
           headers: {
@@ -168,12 +164,9 @@ Meteor.methods({
         }).await();
         response = request.json().await();
         console.log("GraphQL response received:", response ? "success" : "failed");
-      } catch (e) {
-        console.error("Error updating profile:", e);
-      }
+      } catch (e) {}
       // passively fail on error
       if (response && response.data) {
-        console.log("Updating user profile with new data");
         Meteor.users.update(user._id, {
           $set: {
             'services.pitchly.name': response.data.viewer.person.name,
