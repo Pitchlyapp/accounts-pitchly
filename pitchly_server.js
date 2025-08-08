@@ -39,7 +39,7 @@ Meteor.methods({
   // expires. (Note that it may be an approximation since the server stores
   // the timestamp with millisecond precision).
   // Inspired by: https://github.com/percolatestudio/meteor-google-api/blob/master/google-api-methods.js
-  'Pitchly.refreshAccessToken'(data) {
+  async 'Pitchly.refreshAccessToken'(data) {
     // By default, force refresh each time this method is called. But if
     // "force" is set to false, only refresh if near the expiration time.
     let force = true;
@@ -65,14 +65,14 @@ Meteor.methods({
     if (!userId) {
       throw new Meteor.Error("logged-out", "You must be logged in.");
     }
-    const user = Meteor.users.findOne({ _id: userId }, { fields: { "services.pitchly": 1 } });
+    const user = await Meteor.users.findOneAsync({ _id: userId }, { fields: { "services.pitchly": 1 } });
     if (!user) {
       throw new Meteor.Error("user-not-found", "User not found.");
     }
     if (!user.services || !user.services.pitchly || !user.services.pitchly.refreshToken) {
       throw new Meteor.Error("refresh-token-not-found", "Refresh token not found.");
     }
-    const config = ServiceConfiguration.configurations.findOne({ service: "pitchly" });
+    const config = await ServiceConfiguration.configurations.findOneAsync({ service: "pitchly" });
     if (!config) {
       throw new Meteor.Error("service-not-configured", "Pitchly service not configured.");
     }
@@ -90,7 +90,7 @@ Meteor.methods({
     let userAgent = 'Meteor';
     if (Meteor.release) userAgent += `/${Meteor.release}`;
     // exchange current refresh token for a new access token and refresh token
-    const tokenResponse = (function() {
+    const tokenResponse = await (async function() {
       let response;
       try {
         const params = {
@@ -108,15 +108,15 @@ Meteor.methods({
           params.scope = config.accessTokenScope.join(" ");
         }
         const content = new URLSearchParams(params);
-        const request = fetch(`${config.origin || 'https://platform.pitchly.com'}/api/oauth/token`, {
+        const request = await fetch(`${config.origin || 'https://platform.pitchly.com'}/api/oauth/token`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'User-Agent': userAgent
           },
           body: content
-        }).await();
-        response = request.json().await();
+        });
+        response = await request.json();
       } catch (e) {
         // const code = e.response ? e.response.statusCode : 500;
         throw new Meteor.Error("request-failed", "Unable to exchange refresh token.", e.response);
@@ -124,7 +124,7 @@ Meteor.methods({
       if (response.error) {
         throw new Meteor.Error("request-failed", "Unable to exchange refresh token.", response);
       } else {
-        Meteor.users.update(user._id, {
+        await Meteor.users.updateAsync(user._id, {
           $set: {
             'services.pitchly.accessToken': OAuth.sealSecret(response.access_token),
             'services.pitchly.accessTokenExpiresAt': Date.now() + (1000 * parseInt(response.expires_in, 10)),
@@ -136,10 +136,10 @@ Meteor.methods({
       }
     })();
     // update profile info about this user while we're at it (not mission critical if this fails)
-    (function(accessToken) {
+    await (async function(accessToken) {
       let response;
       try {
-        const request = fetch(`${config.apiOrigin || 'https://main--pitchly.apollographos.net'}/graphql`, {
+        const request = await fetch(`${config.apiOrigin || 'https://main--pitchly.apollographos.net'}/graphql`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -161,12 +161,12 @@ Meteor.methods({
               }
             }`
           })
-        }).await();
-        response = request.json().await();
+        });
+        response = await request.json();
       } catch (e) {}
       // passively fail on error
       if (response && response.data) {
-        Meteor.users.update(user._id, {
+        await Meteor.users.updateAsync(user._id, {
           $set: {
             'services.pitchly.name': response.data.viewer.person.name,
             'services.pitchly.email': response.data.viewer.person.email,
